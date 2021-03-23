@@ -5,13 +5,14 @@ from queue import Queue
 import base64
 from hashlib import md5
 import warnings
-from sys import exit
+from sys import exit, stdout
 
 from Connection.negotiate import OfferNegotiation
 from Connection.base import NegotiationBase
 from ident.username import Username
 from TxRx.txrx import send_rec
 from TxRx.message import Message
+from Excs import ServerPublicKeyNotFound
 from Chromos import Chromos
 o = Chromos()
 
@@ -79,12 +80,15 @@ class client(send_rec):
             flag, self.e, __username = OfferNegotiation().authenticate(username=str(self.username), conn=self.s)
             if(flag):
                 o.info('Connection Live')
+                stdout.flush()
                 __username = Username(UID=__username)
                 self.encs[str(__username)] = self.e
                 self.connectedto = __username
                 self.auto_recv()
                 return True
             o.error_info('Authentication Failed!')
+        except ServerPublicKeyNotFound:
+            o.error_info('Server Public Key Not Found!')
         except BrokenPipeError:
             o.error_info('Pipe Broken during Authentication!')
         except ConnectionResetError:

@@ -45,14 +45,11 @@ class send_rec():
         try:
             pack = self.message.cover(from_user=str(self.username), to_user=str(self.connectedto), msg=msg, encryptor=encryptor)
             pack = base64.b64encode(pack.encode())
-        except AttributeError:
-            o.error_info("Connection not yet established!")
-        except:
-            traceback.print_exc()
-        try:
             self.s.sendall(pack)
             self.s.sendall(flags.FLAG_PACKET_COMPLETE)
             return True
+        except AttributeError:
+            o.error_info("Connection not yet established!")
         except OSError:
             traceback.print_exc()
             o.error_info("Connection Collapsed;")
@@ -61,7 +58,6 @@ class send_rec():
             o.error_info("Connection Collapsed;")
         except Exception as exc:
             traceback.print_exc()
-
         return False
 
     def ackrecv(self, msgid) -> None:

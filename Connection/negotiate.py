@@ -11,6 +11,7 @@ import select
 from TSE import tse
 from Flags import flags
 from .base import NegotiationBase
+from Excs import ServerPublicKeyNotFound
 from Chromos import Chromos
 o = Chromos()
 
@@ -90,7 +91,7 @@ class OfferNegotiation(NegotiationBase):
         CPub, CPri = self.load_keys(self.client_keys_path, prefix='client_')
         if(isfile(self.client_keys_path + 'public.key') is False):
             o.error_info("Server Public Key Not Found! ")
-            raise FileNotFoundError
+            raise ServerPublicKeyNotFound
 
         SPub = self.load_key(''.join([self.client_keys_path, 'public.key']))
 
