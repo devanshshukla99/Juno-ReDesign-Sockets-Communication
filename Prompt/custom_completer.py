@@ -1,3 +1,9 @@
+'''
+Original: https://github.com/prompt-toolkit/python-prompt-toolkit
+
+Many thanks to the contributors!
+'''
+
 from typing import Callable, Iterable, List, Mapping, Optional, Pattern, Union, Any, Dict, Set
 
 from prompt_toolkit.completion import CompleteEvent, Completer, Completion
