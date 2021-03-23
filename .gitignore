@@ -4,3 +4,4 @@
 */SKeys/
 *.pyc
 */*.pyc
+*.key
