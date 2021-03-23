@@ -474,7 +474,9 @@ class MotherShip():
         allowed_classes = [__class[0] for __class in inspect.getmembers(obj, inspect.isclass)]
         allowed_functions = [__function[0] for __function in inspect.getmembers(obj, inspect.isfunction)]
         if('__init__' in allowed_methods): allowed_methods.remove('__init__')
+        if('__repr__' in allowed_methods): allowed_methods.remove('__repr__')
         if('__init__' in allowed_functions): allowed_functions.remove('__init__')
+        if('__repr__' in allowed_functions): allowed_functions.remove('__repr__')
         if('__base__' in allowed_classes): allowed_classes.remove('__base__')
         if('__class__' in allowed_classes): allowed_classes.remove('__class__')
         com_m = {key: None for key in allowed_methods}

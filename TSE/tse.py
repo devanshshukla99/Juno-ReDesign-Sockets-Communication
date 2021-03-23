@@ -74,7 +74,7 @@ class Key(encf6):
 
         aeskey = self.urandom(16)
         cipher = AES.new(aeskey, AES.MODE_OCB)
-        tsekey, tag = cipher.encrypt_and_digest(self.exportKey().encode())#self.__key)
+        tsekey, tag = cipher.encrypt_and_digest(self.exportKey().encode())
         nonce = cipher.nonce
         
         tsekey = b64encode(tsekey)
