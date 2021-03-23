@@ -49,7 +49,3 @@ optional arguments:
 ```\connect```
 
 <p style='color:#6A8ED2;font-size:120%;'>Etc, Discover as you go!!</p>
-
-<br>
-
-Gone camping! :tent: Be back soon.
