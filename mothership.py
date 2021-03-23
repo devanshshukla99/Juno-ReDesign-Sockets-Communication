@@ -1,4 +1,13 @@
-#Program for low-level networking interface
+
+'''
+ __  __       _   _               ____  _     _       
+|  \/  | ___ | |_| |__   ___ _ __/ ___|| |__ (_)_ __  
+| |\/| |/ _ \| __| '_ \ / _ \ '__\___ \| '_ \| | '_ \ 
+| |  | | (_) | |_| | | |  __/ |   ___) | | | | | |_) |
+|_|  |_|\___/ \__|_| |_|\___|_|  |____/|_| |_|_| .__/ 
+                                               |_|    
+'''
+
 from __future__ import unicode_literals, print_function
 import sys
 import argparse
@@ -44,6 +53,7 @@ class Login():
     def __init__(self, token, master, data_file_name="login.ch", i_username=None, i_password=None):
         super(Login, self).__init__()
 
+        raise NotImplementedError
         self.__username = None
         self.__login_chk_comp = False
         self.__token = SHA512.new(str(token).encode()).hexdigest()

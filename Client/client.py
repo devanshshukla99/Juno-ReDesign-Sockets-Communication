@@ -1,14 +1,10 @@
 
-import threading
-import select
+import socket
 import traceback
 from queue import Queue
-import json
 import base64
-import socket
 from hashlib import md5
 import warnings
-from time import sleep
 from sys import exit
 
 from Connection.negotiate import OfferNegotiation
@@ -52,8 +48,11 @@ class client(send_rec):
     def __repr__(self):
         return '[\x1b[1;34m%s\x1b[0m]'.join(['<', ' username=', ' host=', ' port=', ' connectedto=', '>']) % ('Client Instance', str(self.username), self.HOST, str(self.PORT), str(self.connectedto))
         
-    def get_username(self):
-        username = input(o.red("Username: "))
+    def get_username(self)->None:
+        '''
+        Gets username, if not already provided.
+        '''
+        username = input(o.red('Username: '))
         if(username):
             self.username = Username(username=username)
             return
@@ -61,13 +60,16 @@ class client(send_rec):
         return
 
     def start(self):
+        '''
+        Starts the connection.
+        '''
         print(o.green('\nWelcome, to Client-Side Configuration Program'))
-
         self.connect()
+        return
 
     def connect(self)->bool:
         '''
-        Connect Now!
+        connect now!
         '''
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect((self.HOST, self.PORT))
@@ -76,7 +78,7 @@ class client(send_rec):
         try:
             flag, self.e, __username = OfferNegotiation().authenticate(username=str(self.username), conn=self.s)
             if(flag):
-                o.info("Connection Live")
+                o.info('Connection Live')
                 __username = Username(UID=__username)
                 self.encs[str(__username)] = self.e
                 self.connectedto = __username
@@ -94,6 +96,9 @@ class client(send_rec):
         return False
 
     def disconnect(self)->bool:
+        '''
+        Closes the socket connection.
+        '''
         if(self.s._closed is False):
             try:
                 self.send('q!')
@@ -109,11 +114,14 @@ class client(send_rec):
         return False
 
     def stop(self)->bool:
+        '''
+        Stops the server-side client socket.
+        '''
         try:
             if(self.listen_obj.is_alive()): self.listen_obj.stop()
         except:
             pass
-        if(self.s):
+        if(not self.s._closed):
             self.disconnect()   
         print(o.red('Client Shutdown Complete!'))
         return True

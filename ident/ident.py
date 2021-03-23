@@ -1,8 +1,11 @@
 
+'''
+Server-Side 
+Client Transactions Handler
+'''
+
 import select
-import pickle
 import json
-import codecs
 import base64
 from os import urandom
 from hashlib import md5
@@ -66,6 +69,7 @@ class IDENT():
             'msg': "#00eb00 bold"
         })
         self.auto_recv()
+        return
 
     def __repr__(self):
         try:
@@ -73,30 +77,41 @@ class IDENT():
         except OSError:
             return '[\x1b[1;34m%s\x1b[0m]'.join(['<', ' username=', ' _closed=']) % ('Ident Instance', str(self.s._closed))
 
-    def ident(self):
-        print(o.red("User: "), self.user)
-        print(o.red("Host: "), self.host)
-        print(o.red("Port: "), self.port)
-
     def forward(self, msg: 'Message', from_user: 'Sender Username')->bool:
+        '''
+        Recv -> Uncover -> Cover(2) -> Send
+        '''
+        raise NotImplementedError
         packet_pickle = base64.b64encode(self.message.cover(from_user=str(from_user), to_user=str(self.username), msg=msg).encode())
         self.s.sendall(packet_pickle)
         self.s.sendall(flags.FLAG_PACKET_COMPLETE)
         return True
     
     def forward_pack(self, pack):
-        print(pack)
+        '''
+        Forwards msg.
+        '''
+        raise NotImplementedError
         self.s.sendall(base64.b64encode(pack))
         self.s.sendall(flags.FLAG_PACKET_COMPLETE)
+        return
 
-    def send(self, msg: 'Message')->bool:       
-        packet_pickle = base64.b64encode(self.message.cover(from_user=str(self.server_username), to_user=str(self.username), msg=msg).encode())
-        self.s.sendall(packet_pickle)
-        self.s.sendall(flags.FLAG_PACKET_COMPLETE)
-
-        return True
+    def send(self, msg: 'Message')->bool:
+        '''
+        Sends the encrypted msg to connected socket
+        '''
+        try:
+            packet_pickle = base64.b64encode(self.message.cover(from_user=str(self.server_username), to_user=str(self.username), msg=msg).encode())
+            self.s.sendall(packet_pickle)
+            self.s.sendall(flags.FLAG_PACKET_COMPLETE)
+            return True
+        except:
+            return False
 
     def ackrecv(self, msgid) -> bool:
+        '''
+        Acknowledges the msg.
+        '''
         pack = self.message.ackowledge(msgid=msgid, from_user=str(self.connected[1]), to_user=str(self.connected[0]), encryptor=None)
         pack = base64.b64encode(pack.encode())
         try:
@@ -113,6 +128,9 @@ class IDENT():
             traceback.print_exc()
 
     def auto_recv(self, stop=False)->None:
+        '''
+        starts the listening thread.
+        '''
         if(stop):
             self.listen_obj.stop()
             return
@@ -122,6 +140,7 @@ class IDENT():
         return
 
     def __set_up_e2e(self, timeout=30)->None:
+        raise NotImplementedError
         msg = flags.FLAG_SEND_E2E_KEY + self.server_obj.clients[self.connected[1]].cpub.decode() + flags.FLAG_SEND_E2E_KEY
         self.forward(msg, from_user=self.connected[1])
         rs, _, _ = select.select([self.s], [], [], timeout)
@@ -135,6 +154,10 @@ class IDENT():
         return
     
     def set_up_e2e(self, timeout=30)->None:
+        '''
+        Not Implemented Yet.
+        '''
+        raise NotImplementedError
         msg = flags.FLAG_SEND_E2E_KEY + self.server_obj.clients[self.connected[1]].cpub.decode() + flags.FLAG_SEND_E2E_KEY
         msg, tag, nonce = self.e.encoder(msg)
         pack =  {
@@ -165,7 +188,9 @@ class IDENT():
             o.error_info('TSE Key Not Recved!') 
         return
 
-    def receive(self, __rtn__=False):
+    def receive(self, __rtn__:bool=False):
+        '''Receives a packet.
+        '''
         timeout = 0
         ready_sockets, _, _ = select.select([self.s], [], [], timeout)
         packet_pickle = b''
@@ -244,6 +269,9 @@ class IDENT():
         return
    
     def parser(self, __data, fromuser=None, pack=None)->None:
+        '''Parser
+        For Taking Action to the received Msgs.
+        '''
         if(not __data):
             if(pack):
                 self.forward(pack)
@@ -274,6 +302,10 @@ class IDENT():
         return
 
     def reset_connection(self):
+        '''
+        For Debug: Not for Release
+        Resets the Connection.
+        '''
         try:
             self.relay_obj.stop()
         except Exception as exc:
@@ -290,7 +322,8 @@ class IDENT():
             o.error_info("Connection w/ " + self.connected[1] + " collpsed!")
             pass
 
-    def relay_msgs(self):
+    def relay_msgs(self)->None:
+        raise NotImplementedError
         self.relay_obj = Relay_Server(self.s, self.server_obj.clients[self.connected[1]].s, self.server_obj)
         try:
             self.relay_obj.start()
@@ -301,7 +334,10 @@ class IDENT():
             traceback.print_exc()
             pass
         
-    def stop(self):
+    def stop(self)->None:
+        '''
+        Execution will stop the Listener and close the socket connection.
+        '''
         if(self.listen_obj):
             if(self.listen_obj.is_alive()):
                 self.listen_obj.stop()
@@ -312,7 +348,7 @@ class IDENT():
             self.send('q!')
         except:
             pass
-        if(not self.s._closed):
+        if(self.s._closed is False):
             self.server_obj.shutdown_request(self.s)
         self.server_obj.clients.pop(str(self.username))
         o.info(str(self.username) + " DC'ed")

@@ -16,8 +16,6 @@ class Key(encf6):
     from os import urandom
     def __init__(self, aeskey: 'AES Encryption Key', key:'Symmetric Key'=None):
         self.__key = None
-        # self.__exportkey = None
-
         if(key): self.retrieveKey(key)
         else: self.genKey()
 

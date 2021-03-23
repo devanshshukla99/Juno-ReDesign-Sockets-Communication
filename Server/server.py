@@ -13,8 +13,8 @@ o = Chromos()
 
 class server(socketserver.ThreadingMixIn, socketserver.TCPServer):
     '''
-    Server Class
-    Handles incoming connections!
+    Server.
+    Handles incoming connections.
     '''
     def __init__(self,
         HOST:str='localhost',
@@ -64,6 +64,9 @@ class server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         return
 
     def stop(self)->None:
+        '''
+        stops the server.
+        '''
         stdout.write(o.red('Stopping!\n'))
         stdout.flush()
         try:
@@ -91,9 +94,9 @@ class server(socketserver.ThreadingMixIn, socketserver.TCPServer):
         timeout = 2
 
         def handle(self):
-            """
-            Handles Requests
-            """
+            '''
+            Handles Requests.
+            '''
             rs, _, _ = select.select([self.request], [], [], self.timeout)
             if(rs):
                 stdout.write('\n')
