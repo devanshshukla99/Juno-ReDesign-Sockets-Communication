@@ -2,8 +2,6 @@
 
 > <p style='font-size:110%;'>Package for easy-straight-forward socket communication with 128-bit AES encryption.</p>
 
-<br>
-
 <h2>Getting Started</h2>
 
 <h3> Installing the Dependencies </h3>
