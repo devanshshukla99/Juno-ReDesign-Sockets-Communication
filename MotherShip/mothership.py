@@ -388,7 +388,7 @@ class MotherShip():
         # print("func:" + str(func))
 
         if(inspect.getmodule(func)):
-            if(inspect.getmodule(func).__name__=="__main__"):
+            if(inspect.getmodule(func).__name__=="MotherShip.mothership"):
                 return func(self)
         if(args):
             return func(eval(args)[0])
