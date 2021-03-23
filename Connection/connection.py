@@ -1,5 +1,9 @@
 # Program for Connection Setup
 
+# Depreciated
+
+raise DeprecationWarning
+
 import os
 from Crypto.PublicKey import RSA
 from Crypto import Random
@@ -84,9 +88,6 @@ class Connection():
 
                 hashCPub = self.ret_hash(CPub)
                 encryptor = self.ret_enc(CPub)
-                
-                # print(b''.join([hashCPub, b':0:', session, b':0:', __aes]))
-                # print(len(b''.join([hashCPub, b':0:', session, b':0:', __aes])))
 
                 self.conn.sendall(b''.join([encryptor.encrypt(b''.join([hashCPub, b':0:', session, b':0:', __aes])), b':0:', re_auth]))
 
