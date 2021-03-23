@@ -1,0 +1,6 @@
+numpy==1.19.1
+prompt_toolkit==1.0.15
+Pygments==2.2.0
+scipy==1.5.2
+pyfiglet==0.8.post1
+pycryptodome==3.10.1
