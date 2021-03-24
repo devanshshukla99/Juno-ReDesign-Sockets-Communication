@@ -11,6 +11,11 @@ pip install -r requirements.txt
 ```
 > <p style='font-size:110%;'>Dependency includes <strong>Chromos</strong>, install via git, <a href='https://www.github.com/devanshshukla99/Chromos'>Chromos</a></p>
 
+<h3>RSA Keys</h3>
+
+> The program will auto generate RSA Keys for Server and Client.
+> For Authentication, the user will have to copy the Server's Public key from **SKeys** to **CKeys** folder and name it **public.key**.
+
 <h3>Help</h3>
 
 ```python
