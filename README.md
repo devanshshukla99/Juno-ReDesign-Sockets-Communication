@@ -1,6 +1,6 @@
 # Juno Sockets Communication
 
-> <p style='font-size:110%;'>Package for easy-straight-forward socket communication with 128-bit AES encryption.</p>
+<p style='font-size:110%;'>Package for easy-straight-forward socket communication with 128-bit AES encryption.</p>
 
 <h2>Getting Started</h2>
 
@@ -9,12 +9,12 @@
 ```python
 pip install -r requirements.txt
 ```
-> <p style='font-size:110%;'>Dependency includes <strong>Chromos</strong>, install via git, <a href='https://www.github.com/devanshshukla99/Chromos'>Chromos</a></p>
+<p style='font-size:110%;'>Dependency includes <strong>Chromos</strong>, install via git, <a href='https://www.github.com/devanshshukla99/Chromos'>Chromos</a></p>
 
 <h3>RSA Keys</h3>
 
-> The program will auto generate RSA Keys for Server and Client.
-> For Authentication, the user will have to copy the Server's Public key from **SKeys** to **CKeys** folder and name it **public.key**.
+The program will auto generate RSA Keys for Server and Client.
+For authentication, the user will have to copy the server's public key from ``SKeys`` to ``CKeys`` folder and name it ``public.key``.
 
 <h3>Help</h3>
 
@@ -53,4 +53,4 @@ optional arguments:
 
 ```\connect```
 
-<p style='color:#6A8ED2;font-size:120%;'>Etc, Discover as you go!!</p>
+<p style='color:#6A8ED2;font-size:120%;'>Etc, discover as you go!!</p>
