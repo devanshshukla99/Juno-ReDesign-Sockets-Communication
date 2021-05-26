@@ -1,4 +1,4 @@
-# Juno Sockets Communication
+# Juno: Sockets Communication
 
 <p style='font-size:110%;'>Package for easy-straight-forward socket communication with 128-bit AES encryption.</p>
 
