@@ -2,5 +2,5 @@ scipy==1.5.2
 pyfiglet==0.8.post1
 Pygments>=2.7.4
 prompt_toolkit==1.0.15
-numpy==1.19.1
+numpy==1.22.0
 pycryptodome==3.10.1
